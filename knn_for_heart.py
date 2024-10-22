@@ -52,6 +52,10 @@ def manual_input_features():
     thal = st.slider("Thal (0-3)", 0, 3, 2)
 
     features = np.array([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]).reshape(1, -1)
+    
+    if features.shape[1] != 13:
+        st.error("Girdi özellikleri hatalı! Lütfen tüm özellikleri doğru giriniz.")
+    
     return features
 
 def main():
@@ -77,7 +81,9 @@ def main():
     st.write("Manuel Veri Girişi")
     user_input = manual_input_features()
 
-    user_prediction = knn_model.model.predict(user_input)
+    scaled_user_input = knn_model.scaler.transform(user_input) 
+
+    user_prediction = knn_model.model.predict(scaled_user_input)
     st.write(f"Verilen veriler için tahmin edilen grup: {user_prediction[0]}")
 
 if __name__ == "__main__":
