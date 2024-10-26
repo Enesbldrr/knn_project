@@ -51,7 +51,7 @@ def manual_input_features():
     ca = st.slider("Renklenmiş Damar Sayısı (0-4)", 0, 4, 0)
     thal = st.slider("Thal (0-3)", 0, 3, 2)
 
-    features = np.array([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]).reshape(1, -1)
+    features = np.array([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]).reshape(-1, 1)
     
     if features.shape[1] != 13:
         st.error("Girdi özellikleri hatalı! Lütfen tüm özellikleri doğru giriniz.")
