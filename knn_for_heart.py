@@ -5,11 +5,13 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
 import streamlit as st 
+import seaborn as sns 
+import matplotlib.pyplot as plt 
 
 class KNNModel:
     def __init__(self, data_path):
         self.data = pd.read_csv(data_path)
-        self.x = self.data.iloc[:, 1:-1].values
+        self.x = self.data.iloc[:, 0:-1].values
         self.y = self.data.iloc[:, -1].values
         self.model = None
         self.scaler = StandardScaler()
@@ -58,6 +60,12 @@ def manual_input_features():
     
     return features
 
+def display_confusion_matrix(knn_model):
+    cm = knn_model.confusion_matrix()
+    fig, ax = plt.subplots()
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", ax=ax)
+    st.pyplot(fig)
+
 def main():
     st.title("KNN Sınıflandırıcı")
 
@@ -78,11 +86,13 @@ def main():
     })
     st.write(prediction_df)
 
+    st.write("Karışıklık Matrisi:")
+    display_confusion_matrix(knn_model)
+
     st.write("Manuel Veri Girişi")
     user_input = manual_input_features()
 
     scaled_user_input = knn_model.scaler.transform(user_input) 
-
     user_prediction = knn_model.model.predict(scaled_user_input)
     st.write(f"Verilen veriler için tahmin edilen grup: {user_prediction[0]}")
 
