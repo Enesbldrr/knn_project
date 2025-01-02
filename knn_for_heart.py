@@ -72,11 +72,9 @@ def main():
     st.write(f"Doğru Tahmin Oranı (Accuracy): {accuracy:.2f}")
 
     predictions = knn_model.predict()
-    prediction_df = pd.DataFrame({
-        'Gerçek Değerler': knn_model.y_test,
-        'Tahmin Değerleri': predictions
-    })
-    st.write(prediction_df)
+    st.write("Veri Setinin İlk 5 Satırı:")
+    st.write(knn_model.data.head())  # Veri setinin ilk 5 satırını gösterir
+
 
     st.write("Manuel Veri Girişi")
     user_input = manual_input_features()
